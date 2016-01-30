@@ -101,13 +101,6 @@ setopt no_beep
 #ヒストリー共有
 setopt share_history
 
-##### rbenv
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init - zsh)"
-
-##### nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-
 ##### peco
 function peco-history-selection() {
     BUFFER=`\history -n 1 | tail -r  | awk '!a[$0]++' | peco`
