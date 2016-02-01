@@ -143,3 +143,5 @@ fi
 
 ## visual studio codeをターミナルより起動可能
 vs () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* }
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
