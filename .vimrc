@@ -64,14 +64,17 @@ let g:neocomplete#sources#dictionary#dictionaries = {
 \   'ruby': $HOME . '/dicts/ruby.dict',
 \ }
 
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
 " Ctrl＋eで補完を強制終了
 inoremap <expr><C-d> neocomplete#cancel_popup()
 
 "************************************************
 "  rsense.vim
 "************************************************
-let g:rsenseHome = '/usr/local/lib/rsense-0.3'
-let g:rsenseUseOmniFunc = 1
+"let g:rsenseHome = '/usr/local/lib/rsense-0.3'
+"let g:rsenseUseOmniFunc = 1
 
 "************************************************
 "  キーマップ・ショートカット設定
