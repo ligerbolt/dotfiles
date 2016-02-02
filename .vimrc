@@ -7,10 +7,10 @@ if has('vim_starting')
   if &compatible
     set nocompatible
   endif
-  set runtimepath+=/home/vagrant/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#begin(expand('/home/vagrant/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -54,21 +54,41 @@ NeoBundleCheck
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+let g:neocomplcache_min_syntax_length = 3
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
-" dicts(ruby)
+" 辞書参照設定
 let g:neocomplete#sources#dictionary#dictionaries = {
 \   'ruby': $HOME . '/dicts/ruby.dict',
+\   'javascript': $HOME . '/dicts/jquery.dict',
+\   'vimshell': $HOME . '.vimshell_hist',
 \ }
 
-inoremap <expr><C-g>     neocomplete#undo_completion()
+" Ctrl+r で直前の補完キャンセル＆補完文字削除
+inoremap <expr><C-r>     neocomplete#undo_completion()
+
+" Ctrl+l で補完候補で共通部を補完
 inoremap <expr><C-l>     neocomplete#complete_common_string()
 
-" Ctrl＋eで補完を強制終了
+" tab で候補選択
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" BS or Ctrl+h で保管用ポップアップ削除
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+
+" Ctrl＋d で補完を強制終了
 inoremap <expr><C-d> neocomplete#cancel_popup()
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 "************************************************
 "  rsense.vim
