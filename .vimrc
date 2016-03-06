@@ -29,6 +29,9 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
 NeoBundle 'szw/vim-tags'
 NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'basyura/unite-rails'
+NeoBundle 'rhysd/vim-textobj-ruby'
+NeoBundle 'kana/vim-textobj-user'
 
 NeoBundle 'Shougo/vimproc.vim', {
   \ 'build' : {
@@ -101,6 +104,9 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 "************************************************
 " ファイル保存時のsudo忘れ対策
 nmap ,sudo :w !sudo tee %<CR>
+
+" [F2] でシェル切り替え
+nnoremap <F2> :shell<CR>
 
 " [F3] でNERDTree起動
 nnoremap <F3> :NERDTreeToggle<CR>
