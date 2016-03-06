@@ -121,7 +121,7 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
-
+alias ex='exit'
 alias sudo='sudo '
 
 # パイプ処理オプション化

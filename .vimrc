@@ -63,7 +63,7 @@ let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 " 辞書参照設定
 let g:neocomplete#sources#dictionary#dictionaries = {
 \   'ruby': $HOME . '/dicts/ruby.dict',
-\   'javascript': $HOME . '/dicts/jquery.dict',
+\   'javascript': $HOME . '/dicts/javascript.dict',
 \   'vimshell': $HOME . '.vimshell_hist',
 \ }
 
