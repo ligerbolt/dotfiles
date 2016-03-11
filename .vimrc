@@ -32,6 +32,7 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'othree/html5.vim'
 
 NeoBundle 'Shougo/vimproc.vim', {
   \ 'build' : {
@@ -92,6 +93,14 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+"************************************************
+"  html5.vim
+"************************************************
+let g:html5_event_handler_attributes_complete = 1
+let g:html5_rdfa_attributes_complete = 1
+let g:html5_microdata_attributes_complete = 1
+let g:html5_aria_attributes_complete = 1
 
 "************************************************
 "  rsense.vim
