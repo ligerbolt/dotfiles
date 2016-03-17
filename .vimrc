@@ -32,6 +32,7 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'othree/html5.vim'
 
 NeoBundle 'Shougo/vimproc.vim', {
   \ 'build' : {
@@ -94,6 +95,14 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 "************************************************
+"  html5.vim
+"************************************************
+let g:html5_event_handler_attributes_complete = 1
+let g:html5_rdfa_attributes_complete = 1
+let g:html5_microdata_attributes_complete = 1
+let g:html5_aria_attributes_complete = 1
+
+"************************************************
 "  rsense.vim
 "************************************************
 "let g:rsenseHome = '/usr/local/lib/rsense-0.3'
@@ -137,6 +146,9 @@ noremap <C-Down> G
 " bash風キーマップ設定
 noremap <C-a> 0
 noremap <C-e> $
+
+" ハイライト表示消去
+noremap <ESC><ESC> :noh<CR>
 
 "************************************************
 "  挙動設定
