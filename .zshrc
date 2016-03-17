@@ -103,9 +103,9 @@ setopt share_history
 
 ##### peco
 function peco-history-selection() {
-    BUFFER=`\history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
+BUFFER=`\history -n 1 | tail -r  | awk '!a[$0]++' | peco`
+CURSOR=$#BUFFER
+zle reset-prompt
 }
 
 zle -N peco-history-selection
@@ -131,17 +131,22 @@ alias -g G='| grep'
 # 標準出力をコピー(オプション "C")
 # mollifier delta blog : http://mollifier.hatenablog.com/entry/20100317/p1
 if which pbcopy >/dev/null 2>&1 ; then
-    # Mac
-    alias -g C='| pbcopy'
+  # Mac
+  alias -g C='| pbcopy'
 elif which xsel >/dev/null 2>&1 ; then
-    # Linux
-    alias -g C='| xsel --input --clipboard'
+  # Linux
+  alias -g C='| xsel --input --clipboard'
 elif which putclip >/dev/null 2>&1 ; then
-    # Cygwin
-    alias -g C='| putclip'
+  # Cygwin
+  alias -g C='| putclip'
 fi
 
-## visual studio codeをターミナルより起動可能
+# visual studio codeをターミナルより起動可能
 vs () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* }
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+# tmux起動時設定（pane分割）
+if [ $SHLVL = 1 ]; then
+  alias tmux="tmux attach || tmux new-session \; source-file ~/dotfiles/default-session"
+fi
