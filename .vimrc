@@ -33,6 +33,7 @@ NeoBundle 'basyura/unite-rails'
 NeoBundle 'rhysd/vim-textobj-ruby'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'othree/html5.vim'
+NeoBundle 'slim-template/vim-slim'
 
 NeoBundle 'Shougo/vimproc.vim', {
   \ 'build' : {
