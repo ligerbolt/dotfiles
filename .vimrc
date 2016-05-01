@@ -1,61 +1,61 @@
-"************************************************
-"  NeoBundle Set-up
-"************************************************
-if 0 | endif
-
-if has('vim_starting')
-  if &compatible
-    set nocompatible
-  endif
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+" --------------------------------------------------
+"    dein.vim
+" --------------------------------------------------
+if &compatible
+  set nocompatible
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+" let $PATH = "~/.pyenv/shims:".$PATH
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Vim起動時にインストール
+augroup Pjedi-vimluginInstall
+  autocmd!
+  autocmd VimEnter * if dein#check_install() | call dein#install() | endif
+augroup END
 
-" 導入プラグインリスト
-NeoBundle 'tomasr/molokai'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Townk/vim-autoclose'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'marcus/rsense'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'yuku-t/vim-ref-ri'
-NeoBundle 'szw/vim-tags'
-NeoBundle 'bronson/vim-trailing-whitespace'
-NeoBundle 'basyura/unite-rails'
-NeoBundle 'rhysd/vim-textobj-ruby'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'othree/html5.vim'
-NeoBundle 'slim-template/vim-slim'
+" インストールディレクトリ
+let s:plugin_dir = expand('~/.vim/bundle/')
+set runtimepath+=~/.vim/dein/dein.vim
 
-NeoBundle 'Shougo/vimproc.vim', {
-  \ 'build' : {
-    \ 'mac' : 'make -f make_mac.mak',
-    \ 'unix': 'gmake -f make_unix.mak',
-    \ 'linux': 'make',
-    \ 'windows': 'make -f make_mingw32.mak',
-    \},
-  \}
+" 導入プラグイン一覧
+call dein#begin(expand('~/.vim/dein/'))
 
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-  \ 'insert' : 1,
-  \ 'filetypes': 'ruby',
-  \ }}
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neomru.vim')
 
-call neobundle#end()
+call dein#add('tomasr/molokai', {'merged': 0})
+call dein#add('bling/vim-airline')
 
-NeoBundleCheck
+call dein#add('scrooloose/nerdtree')
+call dein#add('scrooloose/nerdcommenter')
+call dein#add('Townk/vim-autoclose')
+call dein#add('bronson/vim-trailing-whitespace')
+call dein#add('tpope/vim-endwise')
 
-"***********************************************s
-"  neocomplete.vim
-"************************************************
+call dein#add('davidhalter/jedi-vim')
+
+call dein#add('othree/html5.vim')
+call dein#add('slim-template/vim-slim')
+
+if has('lua')
+  call dein#add('Shougo/neocomplete.vim', {
+    \ 'on_i': 1,
+    \ 'lazy': 1})
+endif
+
+call dein#end()
+
+" プラグイン未インストールチェック
+if dein#check_install()
+  call dein#install()
+endif
+
+
+" --------------------------------------------------
+"    neocomplete.vim
+" --------------------------------------------------
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -67,10 +67,10 @@ let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 
 " 辞書参照設定
 let g:neocomplete#sources#dictionary#dictionaries = {
-\   'ruby': $HOME . '/dicts/ruby.dict',
-\   'javascript': $HOME . '/dicts/javascript.dict',
-\   'vimshell': $HOME . '.vimshell_hist',
-\ }
+ \   'ruby': $HOME . '/dicts/ruby.dict',
+ \   'javascript': $HOME . '/dicts/javascript.dict',
+ \   'vimshell': $HOME . '.vimshell_hist',
+ \ }
 
 " Ctrl+r で直前の補完キャンセル＆補完文字削除
 inoremap <expr><C-r>     neocomplete#undo_completion()
@@ -92,26 +92,12 @@ inoremap <expr><C-d> neocomplete#cancel_popup()
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-"************************************************
-"  html5.vim
-"************************************************
-let g:html5_event_handler_attributes_complete = 1
-let g:html5_rdfa_attributes_complete = 1
-let g:html5_microdata_attributes_complete = 1
-let g:html5_aria_attributes_complete = 1
-
-"************************************************
-"  rsense.vim
-"************************************************
-"let g:rsenseHome = '/usr/local/lib/rsense-0.3'
-"let g:rsenseUseOmniFunc = 1
-
-"************************************************
-"  キーマップ・ショートカット設定
-"************************************************
+" --------------------------------------------------
+"     キーマップ＆ショートカット設定
+" --------------------------------------------------
 " ファイル保存時のsudo忘れ対策
 nmap ,sudo :w !sudo tee %<CR>
 
@@ -124,17 +110,13 @@ nnoremap <F3> :NERDTreeToggle<CR>
 " [space + "."] で.vimrcを開く
 nnoremap <space>. :<C-u>tabedit $MYVIMRC<CR>
 
-" [+/-] でインクリメント/デクリメント実行
-nnoremap + <C-a>
-nnoremap - <C-x>
-
-" [shift + c] でNERD commenter作動（コメントorコメントアウト）
+" ,, でNERD commenter作動（コメントorコメントアウト）
 let NERDSpaceDelims = 1
 "let g:NERDCustomDelimiters = {
 "    \ 'ruby' : {'left': '#'}
 "}
-nmap <S-c> <plug>NERDCommenterToggle
-vmap <S-c> <plug>NERDCommenterToggle
+nmap ,, <plug>NERDCommenterToggle
+vmap ,, <plug>NERDCommenterToggle
 
 " 矢印キー設定追加(画面移動)
 noremap <Up> gk
@@ -151,51 +133,32 @@ noremap <C-e> $
 " ハイライト表示消去
 noremap <ESC><ESC> :noh<CR>
 
-"************************************************
-"  挙動設定
-"************************************************
-" カーソルハイライト
-set cursorline
-hi clear CursorLine
 
-" 自動折り返し対応（window長超えた時のみ折り返し）
-set textwidth=0
+" --------------------------------------------------
+"     jedi-vim設定
+" --------------------------------------------------
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
 
-" Backspaceで行頭削除許可
-set backspace=indent,eol,start
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 
-" クリップボードを連携
-set clipboard+=unnamed
 
-" 括弧対応
-set nostartofline
-set showmatch
-set matchtime=2
+" --------------------------------------------------
+"     html5.vim設定
+" --------------------------------------------------
+let g:html5_event_handler_attributes_complete = 1
+let g:html5_rdfa_attributes_complete = 1
+let g:html5_microdata_attributes_complete = 1
+let g:html5_aria_attributes_complete = 1
 
-" ビープ音消去
-set vb t_vb=
 
-" 複数同時編集対応
-set hidden
-set autoread
-
-" 起動時IMEをOFFにする
-set iminsert=0 imsearch=0
-
-" 矩形選択時の移動制限解除
-set virtualedit& virtualedit+=block
-
-" カーソル移動の行頭、行末処理（前後行へ移動可）
-set whichwrap=b,s,h,l,<,>,[,]
-
-" vim-trailing-whitespace設定
-" バッファ書込前にFixWhiteSpace実行
-autocmd BufWritePre * :FixWhitespace
-
-"************************************************
-"  vim基本設定
-"************************************************
-" 文字設定
+" --------------------------------------------------
+"     vim 基本設定
+" --------------------------------------------------
 set encoding=utf-8
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set fileformats=unix,dos,mac
@@ -272,3 +235,46 @@ set history=100
 
 " swpファイル作成しない
 set noswapfile
+
+" ビープ音消去
+set vb t_vb=
+
+
+" --------------------------------------------------
+"     vim 基本設定
+" --------------------------------------------------
+" カーソルハイライト
+set cursorline
+hi clear CursorLine
+
+" 自動折り返し対応（window長超えた時のみ折り返し）
+set textwidth=0
+
+" Backspaceで行頭削除許可
+set backspace=indent,eol,start
+
+" クリップボードを連携
+set clipboard+=unnamed
+
+" 括弧対応
+set nostartofline
+set showmatch
+set matchtime=2
+
+
+" 複数同時編集対応
+set hidden
+set autoread
+
+" 起動時IMEをOFFにする
+set iminsert=0 imsearch=0
+
+" 矩形選択時の移動制限解除
+set virtualedit& virtualedit+=block
+
+" カーソル移動の行頭、行末処理（前後行へ移動可）
+set whichwrap=b,s,h,l,<,>,[,]
+
+" vim-trailing-whitespace設定
+" バッファ書込前にFixWhiteSpace実行
+autocmd BufWritePre * :FixWhitespace

@@ -143,8 +143,15 @@ fi
 
 # visual studio codeをターミナルより起動可能
 vs () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* }
+
+# rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # tmux起動時設定（pane分割）
 if [ $SHLVL = 1 ]; then
