@@ -14,8 +14,7 @@ augroup Pjedi-vimluginInstall
 augroup END
 
 " インストールディレクトリ
-let s:plugin_dir = expand('~/.vim/bundle/')
-set runtimepath+=~/.vim/dein/dein.vim
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 " 導入プラグイン一覧
 call dein#begin(expand('~/.vim/dein/'))
@@ -34,10 +33,12 @@ call dein#add('Townk/vim-autoclose')
 call dein#add('bronson/vim-trailing-whitespace')
 call dein#add('tpope/vim-endwise')
 
-call dein#add('davidhalter/jedi-vim')
+"call dein#add('davidhalter/jedi-vim')
 
 call dein#add('othree/html5.vim')
 call dein#add('slim-template/vim-slim')
+
+call dein#add('derekwyatt/vim-scala')
 
 if has('lua')
   call dein#add('Shougo/neocomplete.vim', {
@@ -64,12 +65,16 @@ if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
 let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
+let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
+set completeopt=menuone
+
 
 " 辞書参照設定
 let g:neocomplete#sources#dictionary#dictionaries = {
  \   'ruby': $HOME . '/dicts/ruby.dict',
  \   'javascript': $HOME . '/dicts/javascript.dict',
  \   'vimshell': $HOME . '.vimshell_hist',
+ \   'python': $HOME . '/dicts/python_ver3.5.dict',
  \ }
 
 " Ctrl+r で直前の補完キャンセル＆補完文字削除
@@ -92,7 +97,7 @@ inoremap <expr><C-d> neocomplete#cancel_popup()
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " --------------------------------------------------
@@ -137,14 +142,14 @@ noremap <ESC><ESC> :noh<CR>
 " --------------------------------------------------
 "     jedi-vim設定
 " --------------------------------------------------
-autocmd FileType python setlocal omnifunc=jedi#completions
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
+"autocmd FileType python setlocal omnifunc=jedi#completions
+"let g:jedi#completions_enabled = 0
+"let g:jedi#auto_vim_configuration = 0
+"if !exists('g:neocomplete#force_omni_input_patterns')
+"  let g:neocomplete#force_omni_input_patterns = {}
+"endif
 
-let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+"let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
 
 
 " --------------------------------------------------
@@ -154,6 +159,13 @@ let g:html5_event_handler_attributes_complete = 1
 let g:html5_rdfa_attributes_complete = 1
 let g:html5_microdata_attributes_complete = 1
 let g:html5_aria_attributes_complete = 1
+
+
+" --------------------------------------------------
+"     scala-vim
+" --------------------------------------------------
+au BufNewFile,BufRead *.scala setf scala
+au BufNewFile,BufRead *.sbt setf scala
 
 
 " --------------------------------------------------
@@ -184,12 +196,12 @@ set noshowmode
       " \ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
       " \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
       " \ }
-let g:airline_left_sep = "\u2b80"
-let g:airline_left_alt_ep = "\u2b80"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b82"
+let g:airline_left_sep = ""
+let g:airline_left_alt_ep = ""
+let g:airline_right_sep = ""
+let g:airline_right_alt_sep = ""
 "let g:airline_branch_prefix = '⭠ '
-let g:airline#extensions#readonly#symbol = '⭤ '
+let g:airline#extensions#readonly#symbol = ''
 set laststatus=2
 set t_Co=256
 
@@ -254,13 +266,12 @@ set textwidth=0
 set backspace=indent,eol,start
 
 " クリップボードを連携
-set clipboard+=unnamed
+set clipboard=unnamed,autoselect
 
 " 括弧対応
 set nostartofline
 set showmatch
 set matchtime=2
-
 
 " 複数同時編集対応
 set hidden
