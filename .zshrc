@@ -197,3 +197,7 @@ eval "$(pyenv virtualenv-init -)"
 # scala
 export PATH="${HOME}/.scalaenv/bin:${PATH}"
 eval "$(scalaenv init -)"
+
+# ant
+ANT_HOME="/usr/local/bin/ant/"
+PATH="$PATH:$ANT_HOME/bin"
