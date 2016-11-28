@@ -62,11 +62,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -78,7 +78,7 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -144,6 +144,46 @@ fi
 # visual studio codeをターミナルより起動可能
 vs () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* }
 
+
+# tmux起動時設定（pane分割）
+if [ $SHLVL = 1 ]; then
+  alias tmux="tmux attach || tmux new-session \; source-file ~/dotfiles/default-session"
+fi
+
+export PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:$PATH
+eval 'export PATH="/Users/y-onda/.pyenv/plugins/pyenv-virtualenv/shims:${PATH}";
+export PYENV_VIRTUALENV_INIT=1;
+_pyenv_virtualenv_hook() {
+  local ret=$?
+  if [ -n "$VIRTUAL_ENV" ]; then
+    eval "$(pyenv sh-activate --quiet || pyenv sh-deactivate --quiet || true)" || true
+  else
+    eval "$(pyenv sh-activate --quiet || true)" || true
+  fi
+  return $ret
+};
+typeset -g -a precmd_functions
+if [[ -z $precmd_functions[(r)_pyenv_virtualenv_hook] ]]; then
+  precmd_functions=(_pyenv_virtualenv_hook $precmd_functions);
+fi'
+
+export GO_PATH="/usr/local/bin/go"
+PATH=$PATH:$GOPATH
+
+export PLAY_HOME="/usr/local/play"
+PATH=$PATH:$PLAY_HOME
+
+export ORACLE_HOME="/usr/local/instantclient_12_1"
+export DYLD_LIBRARY_PATH="/usr/local/instantclient_12_1"
+export PATH=$PATH:$ORACLE_HOME
+alias brew="env PATH=${PATH/\/Users\/y-onda\/\.pyenv\/shims:/} brew"
+
+if which jenv > /dev/null; then
+  # JENV_ROOTがemptyの場合、'${HOME}/.jenv'がrootと設定される
+  export JENV_ROOT=/usr/local/var/jenv
+  eval "$(jenv init -)"
+fi
+
 # rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -152,8 +192,8 @@ eval "$(rbenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
-# tmux起動時設定（pane分割）
-if [ $SHLVL = 1 ]; then
-  alias tmux="tmux attach || tmux new-session \; source-file ~/dotfiles/default-session"
-fi
+# scala
+export PATH="${HOME}/.scalaenv/bin:${PATH}"
+eval "$(scalaenv init -)"
