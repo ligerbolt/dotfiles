@@ -167,9 +167,16 @@ if [[ -z $precmd_functions[(r)_pyenv_virtualenv_hook] ]]; then
   precmd_functions=(_pyenv_virtualenv_hook $precmd_functions);
 fi'
 
+# zsh-completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+autoload -U compinit
+compinit -u
+
+# GO(peco)
 export GO_PATH="/usr/local/bin/go"
 PATH=$PATH:$GOPATH
 
+# play framework
 export PLAY_HOME="/usr/local/play"
 PATH=$PATH:$PLAY_HOME
 
@@ -201,3 +208,6 @@ eval "$(scalaenv init -)"
 # ant
 ANT_HOME="/usr/local/bin/ant/"
 PATH="$PATH:$ANT_HOME/bin"
+
+# ペイジェントモジュール
+JAVA_OPTIONS=-Djsse.enableSNIExtension=FALSE
